@@ -7,8 +7,8 @@ For more information, see the [course curriculum](https://nextjs.org/learn) on t
 //Jenny
 steps 
 1. npm i 
-2. npm run dev 
-homepage:http://localhost:3000/
+2. npm run dev
+3. homepage:http://localhost:3000/
 login: http://localhost:3000/login
 signup: http://localhost:3000/signup
 protected: http://localhost:3000/protected
