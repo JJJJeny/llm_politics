@@ -1,15 +1,19 @@
+"use client"
+
 import VoteLogo from '@/app/ui/vote-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import Link from 'next/link';
 import Image from 'next/image';
-// import AuthRedirect from './AuthRedirect'; // Adjust the path as needed
-
+import { useUser } from "@clerk/nextjs";
 
 export default function Page() {
+  const { user } = useUser();
+
+  // Determine if the user is logged in by checking if `user` is defined
+  const isLoggedIn = !!user;
+
   return (
-    // <>
-    //   <AuthRedirect redirectTo="/protected" />
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-gray-500 p-4 md:h-52">
         <VoteLogo />
@@ -24,12 +28,27 @@ export default function Page() {
           >
             <strong>Welcome to LLM_Politics</strong> This is the experiment from psychology department of National Taiwan University
           </p>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-gray-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
+          {/* Conditional rendering based on login status */}
+          {isLoggedIn ? (
+            <>
+              <p className={`${lusitana.className} text-xl text-gray-800`}>
+                Welcome back, {user.fullName}
+              </p>
+              <Link
+                href="/protected"
+                className="flex items-center gap-5 self-start rounded-lg bg-gray-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
+              >
+                <span>Continue</span> <ArrowRightIcon className="w-5 md:w-6" />
+              </Link>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-5 self-start rounded-lg bg-gray-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
+            >
+              <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
+            </Link>
+          )}
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           {/* Add Hero Images Here */}
@@ -50,6 +69,5 @@ export default function Page() {
         </div>
       </div>
     </main>
-    // </>
   );
 }
